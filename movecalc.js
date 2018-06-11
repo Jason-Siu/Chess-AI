@@ -232,21 +232,19 @@ var calcBestMove = function(depth, game, playerColor,
   // Base case: evaluate board
     if (depth === 0)
     {
-        
-        value = evaluateBoard(game.board(), playerColor);
-        return [value, null];
-        
+        var noisyMoves = generateNoisyMoves(game.moves());
+        if(noisyMoves.length !==0)
+        {
+          var value = qSearch(2, game, playerColor)[0];
+          return [value, null];
+        }
+        else 
+        {
+          value = evaluateBoard(game.board(), playerColor);
+          return [value, null];
+        }
     }
-    else
-    {
-      // call quiescnence search
-      // depth 2, current game, playerCOlor
-      var value = qSearch(2, game, playerColor)[0];
-      return [value, null];
-    }
-      
-  
-
+   
   // Recursive case: search possible moves
   var bestMove = null; // best move not set yet
   var possibleMoves = game.moves();
